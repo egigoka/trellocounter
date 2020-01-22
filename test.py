@@ -21,7 +21,7 @@ from commands import *
 from trello import TrelloApi
 import requests
 
-__version__ = "0.0.6"
+__version__ = "0.1.0"
 
 ENCRYPTED_TRELLO_API_TOKEN = [33, -20, -56, -18, -57, -57, -47, 48, 33, 31, -49, -14, -56, -55, -41, 0, -16, -20, -50,
                               -20, -59, -5, -44, 4, 29, -20, -48, -16, -54, -52, 1, 4, -13, 27, -49, -16, -55, -10, 0, 1,
@@ -120,7 +120,7 @@ for list_ in board_lists:
 
 header, rows = rapidtables.format_table(time, fmt=rapidtables.FORMAT_GENERATOR_COLS)
 spacer = '  '
-Print.colored(spacer.join(header), 'blue')
-Print.colored('-' * sum([(len(x) + 2) for x in header]), 'grey')
+print(spacer.join(header))
+print('-' * sum([(len(x) + 2) for x in header]))
 for row in rows:
     print(spacer.join(row))
