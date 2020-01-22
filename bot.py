@@ -18,7 +18,7 @@ except ImportError:
     os.system("python3 -m pip install pytelegrambotapi")
     import telebot
 
-__version__ = "0.0.7"
+__version__ = "0.0.8"
 
 my_chat_id = 5328715
 
@@ -74,11 +74,16 @@ def start_todoist_bot(none_stop=True):
         except:
             print(chat_id, message_id)
 
+        main_markup = telebot.types.ReplyKeyboardMarkup()
+        main_button = telebot.types.KeyboardButton('Upd!')
+        main_markup.row(main_button)
+        main_markup.row()
+
         out = "Access denied!"
         if chat_id == my_chat_id:
             out = "```"+newline+Console.get_output("python3", "test.py")+"```"
         print(out)
-        telegram_api.send_message(chat_id, out, parse_mode="markdown")
+        telegram_api.send_message(chat_id, out, parse_mode="markdown", reply_markup=main_markup)
 
 
     telegram_api.polling(none_stop=none_stop)
