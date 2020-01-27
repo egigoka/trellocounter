@@ -18,7 +18,7 @@ except ImportError:
     os.system("python3 -m pip install pytelegrambotapi")
     import telebot
 
-__version__ = "0.0.8"
+__version__ = "0.0.11"
 
 my_chat_id = 5328715
 
@@ -40,6 +40,7 @@ if OS.hostname == "MacBook-Pro-Mac.local":
     File.write(filepath, new_content, mode="w")
 # end changing version
 
+# encryption part
 encrypted_telegram_token = [-20, -23, -55, -19, -56, -54, -47, 4, -17, -16, -47, -6, -46, -37, -32, 49, 10, -15, -32,
                             -2, -25, -8, 15, 34, 46, -21, 4, -20, 2, -3, -49, 26, 43, 1, -35, -20, 5, -1, -29, 30, 16,
                             12, 11, 12, -2, -4]  # production
@@ -59,6 +60,7 @@ except (NameError, KeyError):
     password = reset_password()
 
 telegram_token = Str.decrypt(encrypted_telegram_token, password)
+# end encryption part
 
 
 def start_todoist_bot(none_stop=True):

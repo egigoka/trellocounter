@@ -21,7 +21,23 @@ from commands import *
 from trello import TrelloApi
 import requests
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
+
+
+def humanify_minutes(integer):
+    hours = int(integer//60)
+
+    minutes = integer % 60
+    if minutes % 1 == 0:
+        minutes = int(minutes)  # if minutes is float and zero after point
+    else:
+        minutes = round(minutes, 1)
+
+    out = f"{minutes} m"
+    if integer>=60:
+        out = f"{hours} h " + out
+    return out
+
 
 ENCRYPTED_TRELLO_API_TOKEN = [33, -20, -56, -18, -57, -57, -47, 48, 33, 31, -49, -14, -56, -55, -41, 0, -16, -20, -50,
                               -20, -59, -5, -44, 4, 29, -20, -48, -16, -54, -52, 1, 4, -13, 27, -49, -16, -55, -10, 0, 1,
@@ -115,7 +131,9 @@ for list_ in board_lists:
         time.append({
             # "list_id": list_id,
             "list_name": list_name,
-            "time": all_time})
+            "time": humanify_minutes(all_time),
+            # "time_int": all_time
+            })
         # Print("   ", list_name, list_id, f"\ttime: {all_time} mins")
 
 header, rows = rapidtables.format_table(time, fmt=rapidtables.FORMAT_GENERATOR_COLS)
