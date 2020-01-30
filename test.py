@@ -21,7 +21,7 @@ from commands import *
 from trello import TrelloApi
 import requests
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 
 
 def humanify_minutes(integer):
@@ -114,7 +114,7 @@ for list_ in board_lists:
                 card_time = Str.substring(card_name, "(").strip().strip(")")
             except KeyError:
                 card_time = ""
-                Print.colored("           ", 'Add time!', card_name, "red", "on_black")
+                Print.colored('Add time!', card_name)
             while "(" in card_time:
                 card_time = Str.substring(card_time, "(")
             # Print("           ", card_time)
@@ -123,11 +123,11 @@ for list_ in board_lists:
                 card_mins = Str.get_integers(card_time)[0]
                 all_time += card_mins
             except IndexError:
-                Print.colored("           ", "Add mins!", card_name, "red", "on_black")
+                Print.colored("Add mins!", card_name)
             try:
                 card_counts = Str.get_integers(card_time)[1]
             except IndexError:
-                Print.colored("           ", "Add counts!", card_name, "red", "on_black")
+                Print.colored("Add counts!", card_name)
         time.append({
             # "list_id": list_id,
             "list_name": list_name,
