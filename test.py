@@ -21,7 +21,7 @@ from commands import *
 from trello import TrelloApi
 import requests
 
-__version__ = "0.2.1"
+__version__ = "0.3.0"
 
 
 def humanify_minutes(integer):
@@ -100,6 +100,7 @@ for list_ in board_lists:
         list_id = list_["id"]
         list_name = list_["name"]
         all_time = 0
+        task_count = 0
 
         cards = requests.get(f"https://api.trello.com/1/lists/{list_id}/cards?key={TRELLO_API_KEY}"
                              f"&token={TRELLO_API_TOKEN}&fields=id,name,badges,labels").json()
@@ -108,6 +109,7 @@ for list_ in board_lists:
         for card in cards:
             card_id = card["id"]
             card_name = card["name"]
+            task_count += 1
             # Print("       ", card_name, card_id)
 
             try:
@@ -132,6 +134,7 @@ for list_ in board_lists:
             # "list_id": list_id,
             "list_name": list_name,
             "time": humanify_minutes(all_time),
+            "task_count": task_count
             # "time_int": all_time
             })
         # Print("   ", list_name, list_id, f"\ttime: {all_time} mins")

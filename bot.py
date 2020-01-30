@@ -18,7 +18,7 @@ except ImportError:
     os.system("python3 -m pip install pytelegrambotapi")
     import telebot
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 my_chat_id = 5328715
 
