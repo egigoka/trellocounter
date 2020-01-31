@@ -21,7 +21,7 @@ from commands import *
 from trello import TrelloApi
 import requests
 
-__version__ = "0.4.0"
+__version__ = "0.5.0"
 
 
 def humanify_minutes(integer):
@@ -95,6 +95,7 @@ board_lists = requests.get(board_lists_url).json()["lists"]
 
 time = []
 to_do_cards = []
+current_tasks = []
 
 for list_ in board_lists:
     if not list_["closed"]:
@@ -108,6 +109,8 @@ for list_ in board_lists:
 
         if list_name.lower() in ["depended", "proposed", "current"]:
             to_do_cards += cards
+        if list_name.lower() in ["current"]:
+            current_tasks += cards
 
         # Print.prettify(cards)
         for card in cards:
@@ -150,4 +153,12 @@ print('-' * sum([(len(x) + 2) for x in header]))
 for row in rows:
     print(spacer.join(row))
 
-Print(f"{newline}Random task: {Random.item(to_do_cards)['name']}")
+print()
+if current_tasks:
+    Print(f"Current tasks:")
+    for task in current_tasks:
+        Print(task["name"])
+elif to_do_cards:
+    Print(f"Random task: {Random.item(to_do_cards)['name']}")
+else:
+    print("Hooray! Everething is done!")
