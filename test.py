@@ -21,7 +21,7 @@ from commands import *
 from trello import TrelloApi
 import requests
 
-__version__ = "0.5.0"
+__version__ = "0.6.0"
 
 
 def humanify_minutes(integer):
@@ -94,7 +94,8 @@ board_lists = requests.get(board_lists_url).json()["lists"]
 # Print.prettify(board_lists)
 
 time = []
-to_do_cards = []
+depended_tasks = []
+proposed_tasks = []
 current_tasks = []
 
 for list_ in board_lists:
@@ -107,8 +108,10 @@ for list_ in board_lists:
         cards = requests.get(f"https://api.trello.com/1/lists/{list_id}/cards?key={TRELLO_API_KEY}"
                              f"&token={TRELLO_API_TOKEN}&fields=id,name,badges,labels").json()
 
-        if list_name.lower() in ["depended", "proposed", "current"]:
-            to_do_cards += cards
+        if list_name.lower() in ["depended"]:
+            depended_tasks += cards
+        if list_name.lower() in ["proposed"]:
+            proposed_tasks += cards
         if list_name.lower() in ["current"]:
             current_tasks += cards
 
@@ -148,17 +151,21 @@ for list_ in board_lists:
 
 header, rows = rapidtables.format_table(time, fmt=rapidtables.FORMAT_GENERATOR_COLS)
 spacer = '  '
+print("```")
 print(spacer.join(header))
 print('-' * sum([(len(x) + 2) for x in header]))
 for row in rows:
     print(spacer.join(row))
+print("```")
 
 print()
 if current_tasks:
     Print(f"Current tasks:")
     for task in current_tasks:
         Print(task["name"])
-elif to_do_cards:
-    Print(f"Random task: {Random.item(to_do_cards)['name']}")
+elif proposed_tasks:
+    Print(f"Random task: {Random.item(proposed_tasks)['name']}")
+elif depended_tasks:
+    Print(f"Random task: {Random.item(depended_tasks)['name']}")
 else:
     print("Hooray! Everething is done!")
